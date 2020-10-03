@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
+        defaultValue: '',
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: '',
       },
       roles: {
         type: DataTypes.STRING(255),
@@ -45,9 +47,12 @@ module.exports = (sequelize, DataTypes) => {
 
   User.beforeCreate(async (model) => {
     const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
-    const hash = await bcrypt.hash(model.password, salt);
 
-    model.password = hash;
+    if (model.password) {
+      const hash = await bcrypt.hash(model.password, salt);
+
+      model.password = hash;
+    }
   });
 
   return User;

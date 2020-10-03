@@ -67,7 +67,10 @@ const signUpUser = async (userData) => {
 
   const user = await User.create(data);
 
-  return toResponse(user);
+  return {
+    user: toResponse(user),
+    token: generateJWT(user),
+  };
 };
 
 /**
@@ -81,7 +84,7 @@ const loginUser = async (email, password) => {
   if (!userRecord) {
     throw new Error(`User not found email: ${email}`);
   }
-  console.log(userRecord, '--->userRecord');
+
   const correctPassword = await verifyPassword(password, userRecord.password);
 
   if (!correctPassword) {

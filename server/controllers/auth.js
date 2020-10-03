@@ -1,10 +1,10 @@
-const { signUpUser } = require('../services/auth');
 const serviceAuth = require('../services/auth');
 
 const logger = require('../lib/log')('auth-ctrl');
 
 const {
   loginUser,
+  signUpUser,
 } = serviceAuth;
 
 const login = async (req, res, next) => {
@@ -22,8 +22,13 @@ const login = async (req, res, next) => {
 };
 
 const signUp = async (req, res, next) => {
+  const inputData = {
+    ...req.body,
+    roles: ['user'],
+  };
+
   try {
-    const data = await signUpUser(req.body);
+    const data = await signUpUser(inputData);
 
     res.send(data);
   } catch (err) {
