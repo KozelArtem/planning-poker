@@ -1,13 +1,21 @@
-import { login, logout } from '../../api/auth';
+import {
+  login, signUp, logout, quickPlay,
+} from '../../api/auth';
 import {
   AUTH_SET_LOADING,
   AUTH_SET_TOKEN,
   AUTH_SET_USER_DATA,
   AUTH_RESET_USER_DATA,
 } from '../mutationTypes/auth';
+import {
+  AUTH_LOGIN,
+  AUTH_SIGN_UP,
+  AUTH_LOGOUT,
+  AUTH_QUICK_PLAY,
+} from '../actionTypes/auth';
 
 const initialState = () => ({
-  user: {},
+  user: null,
   token: localStorage.getItem('token'),
   loading: false,
 });
@@ -19,7 +27,7 @@ const getters = {
 };
 
 const actions = {
-  async login({ commit }, { email, password }) {
+  async [AUTH_LOGIN]({ commit }, { email, password }) {
     commit(AUTH_SET_LOADING, true);
 
     try {
@@ -35,8 +43,41 @@ const actions = {
       console.log(err, '--->err');
     }
   },
+  async [AUTH_SIGN_UP]({ commit }, { email, password }) {
+    commit(AUTH_SET_LOADING, true);
 
-  async logout({ commit }) {
+    try {
+      const response = await signUp(email, password);
+
+      if (response) {
+        commit(AUTH_SET_TOKEN, response.data.token);
+        commit(AUTH_SET_USER_DATA, response.data.user);
+      }
+
+      commit(AUTH_SET_LOADING, false);
+    } catch (err) {
+      console.log(err, '--->err');
+    }
+  },
+  async [AUTH_QUICK_PLAY]({ commit }, data) {
+    commit(AUTH_SET_LOADING, true);
+
+    try {
+      console.log(data, '--->data');
+      const response = await quickPlay(data);
+
+      if (response) {
+        commit(AUTH_SET_TOKEN, response.data.token);
+        commit(AUTH_SET_USER_DATA, response.data.user);
+      }
+
+      commit(AUTH_SET_LOADING, false);
+    } catch (err) {
+      console.log(err, '--->err');
+    }
+  },
+
+  async [AUTH_LOGOUT]({ commit }) {
     commit(AUTH_SET_LOADING, true);
     try {
       await logout();

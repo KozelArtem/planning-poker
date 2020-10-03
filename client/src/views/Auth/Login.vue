@@ -2,8 +2,9 @@
 import { mapState, mapActions } from 'vuex';
 
 import { AUTH_LOGIN } from '../../store/actionTypes/auth';
+import { AUTH_NAMESPACE } from '../../store/namespaces';
 
-import FormLayout from '../layouts/FormLayout.vue';
+import FormLayout from '../../components/layouts/FormLayout.vue';
 
 export default {
   components: {
@@ -16,17 +17,17 @@ export default {
   }),
 
   computed: {
-    ...mapState('AUTH', ['user']),
+    ...mapState(AUTH_NAMESPACE, ['user']),
   },
 
   methods: {
-    ...mapActions([AUTH_LOGIN]),
+    ...mapActions(AUTH_NAMESPACE, [AUTH_LOGIN]),
 
-    async login() {
+    async submit() {
       await this[AUTH_LOGIN]({ email: this.email, password: this.password });
 
       if (this.user) {
-        this.$router.push('/');
+        this.$router.push('/board');
       }
     },
   },
@@ -66,7 +67,7 @@ export default {
         block
         color="primary"
         large
-        @click="login"
+        @click="submit()"
       >
         Login
       </v-btn>

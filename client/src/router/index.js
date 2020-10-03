@@ -7,7 +7,10 @@ import Home from '../views/Home.vue';
 import Login from '../views/Auth/Login.vue';
 import SignUp from '../views/Auth/SignUp.vue';
 import RestorePassword from '../views/Auth/RestorePassword.vue';
-import QuickPlay from '../views/QuickPlay.vue';
+import QuickPlay from '../views/Auth/QuickPlay.vue';
+
+import Board from '../views/Board.vue';
+import Room from '../views/Room.vue';
 
 Vue.use(VueRouter);
 
@@ -41,6 +44,16 @@ const notAuthRoutes = [
 
 const routes = [
   ...notAuthRoutes,
+  {
+    path: '/board',
+    name: 'Board',
+    component: Board,
+  },
+  {
+    path: '/room/:hash',
+    name: 'Room',
+    component: Room,
+  },
 ];
 
 const router = new VueRouter({

@@ -1,5 +1,5 @@
 <script>
-import FormLayout from '../layouts/FormLayout.vue';
+import FormLayout from '../../components/layouts/FormLayout.vue';
 
 export default {
   components: {

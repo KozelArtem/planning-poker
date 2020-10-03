@@ -2,8 +2,9 @@
 import { mapState, mapActions } from 'vuex';
 
 import { AUTH_SIGN_UP } from '../../store/actionTypes/auth';
+import { AUTH_NAMESPACE } from '../../store/namespaces';
 
-import FormLayout from '../layouts/FormLayout.vue';
+import FormLayout from '../../components/layouts/FormLayout.vue';
 
 export default {
   components: {
@@ -20,17 +21,17 @@ export default {
   }),
 
   computed: {
-    ...mapState('AUTH', ['user']),
+    ...mapState(AUTH_NAMESPACE, ['user']),
   },
 
   methods: {
-    ...mapActions(AUTH_SIGN_UP),
+    ...mapActions(AUTH_NAMESPACE, [AUTH_SIGN_UP]),
 
-    async signUp() {
+    async submit() {
       await this[AUTH_SIGN_UP](this.userData);
 
       if (this.user) {
-        this.$router.push('/');
+        this.$router.push('/board');
       }
     },
   },
@@ -80,7 +81,7 @@ export default {
         block
         color="primary"
         large
-        @click="signUp()"
+        @click="submit()"
       >
         Sign Up
       </v-btn>

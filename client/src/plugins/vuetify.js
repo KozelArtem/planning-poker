@@ -1,17 +1,10 @@
 import Vue from 'vue';
-import Vuetify, { VApp } from 'vuetify/lib';
+import Vuetify from 'vuetify/lib';
 
-Vue.use(Vuetify, {
-  components: {
-    VApp,
-  },
-});
+Vue.use(Vuetify);
 
 export default new Vuetify({
   icons: {
     iconfont: 'mdi',
-  },
-  lang: {
-    current: 'ru',
   },
 });
